@@ -134,11 +134,6 @@ class Bishop(ChessPiece):
 
         mypos = self.algebraic_to_numeric(self.position)
         test = self.algebraic_to_numeric(position)
-        # d_mypos = min(mypos, test)
-        # d_test = max(mypos, test)
-        # return (mypos[0] + mypos[1] == test[0] + test[1]) or \
-        #       (d_test[0] == abs(d_test[1]) - d_mypos[1]) or \
-        #       (mypos == test)
         return abs(mypos[0] - test[0]) == abs(mypos[1] - test[1])
 
 
@@ -200,23 +195,12 @@ class ChessMatch(object):
         Returns:
             None
         """
-
-        positions = ['Ra1', 'Rh1', 'Ra8',
-                     'Rh8', 'Bc1', 'Bf1',
-                     'Bc8', 'Bf8', 'Ke1', 'Ke8']
-
-        my_pieces = [Rook('a1'),
-                     Rook('h1'),
-                     Rook('a8'),
-                     Rook('h8'),
-                     Bishop('c1'),
-                     Bishop('f1'),
-                     Bishop('c8'),
-                     Bishop('f8'),
-                     King('e1'),
-                     King('e8')]
-
-        self.pieces = dict(zip(positions, my_pieces))
+        
+        self.pieces = {'Ra1': Rook('a1'), 'Rh1': Rook('h1'),
+                       'Ra8':Rook('a8'), 'Rh8': Rook('h8'),
+                       'Bc1': Bishop('c1'), 'Bf1': Bishop('f1'),
+                       'Bc8': Bishop('c8'), 'Bf8': Bishop('f8'),
+                       'Ke1': King('e1'), 'Ke8': King('e8')}
         self.log = []
         return None
 
