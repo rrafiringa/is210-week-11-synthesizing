@@ -56,7 +56,7 @@ class Task05TestCase(unittest.TestCase):
         cm.log = [('a', 'b')]
         cm.reset()
         self.assertEqual(cm.log, [])
-        self.assertEqual(cm.pieces.keys(), self.starting_positions.keys())
+        self.assertEqual(cm.pieces.keys().sort(), self.starting_positions.keys().sort())
 
     def test_move_log(self):
         """Tests that the move operation logs a move."""

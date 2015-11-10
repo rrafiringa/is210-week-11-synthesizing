@@ -36,7 +36,7 @@ class ChessPiece(object):
         Args:
             position (String): Algebraic expression
         Returns:
-            Mixed: Returns a tuple or False
+            Mixed: Returns a tuple or None
         """
         keys = [x + str(y) for x in 'abcdefgh' for y in range(1, 9)]
         values = [(x, y) for x in xrange(8) for y in xrange(8)]
@@ -45,7 +45,8 @@ class ChessPiece(object):
         tile = str(tile).strip().lower()
         if tile in boardmap.keys():
             return boardmap[tile]
-        return False
+
+        return None
 
     def is_legal_move(self, position):
         """
@@ -64,11 +65,12 @@ class ChessPiece(object):
             position (String): Algebraic expression.
         """
         if self.is_legal_move(position) and position != self.position:
-            self.moves.append((self.prefix + self.position,
-                               self.prefix + position,
-                               time.time()))
+            entry = (self.prefix + self.position,
+                     self.prefix + position,
+                     time.time())
+            self.moves.append(entry)
             self.position = position
-            return self.moves
+            return entry
         return False
 
 
@@ -132,11 +134,12 @@ class Bishop(ChessPiece):
 
         mypos = self.algebraic_to_numeric(self.position)
         test = self.algebraic_to_numeric(position)
-        d_mypos = min(mypos, test)
-        d_test = max(mypos, test)
-        return (mypos[0] + mypos[1] == test[0] + test[1]) or \
-               (d_test[0] == abs(d_test[1]) - d_mypos[1]) or \
-               (mypos == test)
+        # d_mypos = min(mypos, test)
+        # d_test = max(mypos, test)
+        # return (mypos[0] + mypos[1] == test[0] + test[1]) or \
+        #       (d_test[0] == abs(d_test[1]) - d_mypos[1]) or \
+        #       (mypos == test)
+        return abs(mypos[0] - test[0]) == abs(mypos[1] - test[1])
 
 
 class King(ChessPiece):
@@ -255,11 +258,9 @@ if __name__ == '__main__':
             (String): String output of positions
         """
 
-        moves = [x + str(y) for x in 'abcdefgh' for y in range(1, 9)]
-        ordered = moves[:]
-        random.shuffle(moves)
-
         out = ''
+        moves = [x + str(y) for x in 'abcdefgh' for y in range(1, 9)]
+        random.shuffle(moves)
         ptype = {'R': 'Rook', 'N': 'Knight', 'B': 'Bishop', 'K': 'King'}
 
         print '### Random Test: ' + ptype[piece.prefix] + ' ###'
@@ -268,16 +269,19 @@ if __name__ == '__main__':
             initial = piece.prefix + piece.position
             pos = moves[i]
             if piece.move(pos):
-                out += 'Move {}: {} => {} succeeded.\n'.format(i,
-                                                   initial,
-                                                   piece.prefix + pos)
+                out += 'Move {}: {} => {} succeeded.\n'\
+                       .format(i, initial, piece.prefix + pos)
 
             else:
                 out += 'Move {}: {} => {} failed.\n'.format(i,
-                                                         initial,
-                                                         piece.prefix + pos)
+                                                            initial,
+                                                            piece.prefix + pos)
 
         return out
 
     for chpiece in MYPIECES:
         print chtest(chpiece)
+
+    MY_C = ChessPiece('a4')
+    print MY_C.algebraic_to_numeric('i9')
+    print (MY_C.move('b5')[:2])
