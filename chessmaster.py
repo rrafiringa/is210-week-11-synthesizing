@@ -195,9 +195,9 @@ class ChessMatch(object):
         Returns:
             None
         """
-        
+
         self.pieces = {'Ra1': Rook('a1'), 'Rh1': Rook('h1'),
-                       'Ra8':Rook('a8'), 'Rh8': Rook('h8'),
+                       'Ra8': Rook('a8'), 'Rh8': Rook('h8'),
                        'Bc1': Bishop('c1'), 'Bf1': Bishop('f1'),
                        'Bc8': Bishop('c8'), 'Bf8': Bishop('f8'),
                        'Ke1': King('e1'), 'Ke8': King('e8')}
